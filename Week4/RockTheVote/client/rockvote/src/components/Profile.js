@@ -1,44 +1,19 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
+import TodoForm from './TodoForm.js'
+import TodoList from './TodoList.js'
+import Todo from './Todo.js'
+import { UserContext } from '../context/UserProvider.js'
 
-const initInputs = {
-  issue: "",
-  comment: ""
-}
+export default function Profile(){
+  const { user: {username}, addTodo, todos } = useContext(UserContext)
 
-export default function TodoForm(props){
-  const [inputs, setInputs] = useState(initInputs)
-  const { addTodo } = props
-
-  function handleChange(e){
-    const {name, value} = e.target
-    setInputs(prevInputs => ({
-      ...prevInputs,
-      [name]: value
-    }))
-  }
-
-  function handleSubmit(e){
-    e.preventDefault()
-    addTodo(inputs)
-    setInputs(initInputs)
-  }
-
-  const { issue, comment } = inputs
   return (
-    <form onSubmit={handleSubmit}>
-      <input 
-        type="text" 
-        name="issue" 
-        value={issue} 
-        onChange={handleChange} 
-        placeholder="Issue"/>
-      <input 
-        type="text" 
-        name="comment" 
-        value={comment} 
-        onChange={handleChange} 
-        placeholder="Comment"/>
-      <button>Add Todo</button>
-    </form>
+    <div className="profile">
+      <h1>Welcome @{username}!</h1>
+      <h3>Add A Todo</h3>
+      <TodoForm addTodo={addTodo} />
+      <h3>Your Todos</h3>
+      <TodoList todos={todos}/>
+    </div>
   )
 }
