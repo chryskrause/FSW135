@@ -16,6 +16,7 @@ mongoose.connect('mongodb://localhost:27017/rockthevote',
         useFindAndModify: false
     }, () => console.log("Connected to database"))
 
+    app.use("/auth", require("./routes/authRouter.js"))
     app.use("/user", require("./routes/authRouter"))
     app.use('/api', expressJwt({ secret: process.env.SECRET, algorithms: ['RS256'] }))
     app.use('/api/todo', require('./routes/todoRouter'))
